@@ -20,24 +20,24 @@ Now we need to tie our progress bars in with code.  We’re going to go into our s
 
 ::
 
-extends Sprite
+	extends Sprite
 
-var TNL = 100
-var Experience = 90.0
+	var TNL = 100
+	var Experience = 90.0
+	
+	var MaxHealth = 100
+	var Health = 60.0
+	var Shield = 0.0
 
-var MaxHealth = 100
-var Health = 60.0
-var Shield = 0.0
-
-func _ready():
+	func _ready():
 
 	set_process(true)
 
-func _process(delta):
-	Health = float(get_node("HSlider").get_value())
-	Shield = float(get_node("HSlider2").get_value())
-	get_node("TextureProgress").set_value(get_node("HSlider1").get_value())
-	update() // Necessary for _draw() to run
+	func _process(delta):
+		Health = float(get_node("HSlider").get_value())
+		Shield = float(get_node("HSlider2").get_value())
+		get_node("TextureProgress").set_value(get_node("HSlider1").get_value())
+		update() // Necessary for _draw() to run
 
 Our max experience (TNL), and MaxHealth match the maximum value of our slider.  Be sure to rescale the slider to account for different maximums.  For shield it doesn’t matter because there is no max.
 
@@ -60,6 +60,8 @@ The core drawing function
 	var polycolors = []
 
 There’s a lot going on to make it look this good.  We use the center of the level label as a reference point and the top of the radial progress object (labelcenter – Vector2(0,outerrad)) as our second reference point.  This will be the 2 anchor points of our health bar and defines its height.  EffectiveHealth is used to help rescale the proportions of our health bar so we still have some indication that the unit is below max health if it has a large shield.  HealthCol is a ratio we use to define the color of our health bar so it changes from green to orange to red.
+
+Let’s start building our status bar:
 
 ::
 
